@@ -87,6 +87,8 @@ def remesh(image: np.ndarray,
     ycrd: ndarray
         y-coords of warped image
     """
+    geometry = geometry.__deepcopy__()
+    geometry.setFit2D(geometry.getFit2D()["directDist"], geometry.getFit2D()["centerX"], len(image) - geometry.getFit2D()["centerY"])
     assert image.shape == geometry.detector.shape
     x = np.arange(image.shape[1])
     y = np.arange(image.shape[0])
@@ -145,10 +147,10 @@ if __name__ == '__main__':
     from pyFAI import detectors
     import fabio
 
-    filename = '/home/rp/data/YL1031/AGB_5S_USE_2_2m.edf'
+    filename = '/home/richard/SAXS/YL1031/AGB_5S_USE_2_2m.edf'
 
     fit2d = {'centerX': 237.5,
-             'centerY': 1678 - 30.500000000000004,
+             'centerY': 30.500000000000004,#1678 -
              'directDist': 283.26979219190343,
              'pixelX': 171.99999999999997,
              'pixelY': 171.99999999999997,
